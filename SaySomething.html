@@ -7,7 +7,8 @@
     <style>
         .hidden {
             display: none;
-            text-align: center;
+            padding: 10px;
+            overflow: hidden;
         }
 
         h1.welcome {
@@ -30,19 +31,24 @@
             display: inline-block;
         }
 
-        div.lis{
-            position: relative;
+        .lis{
+            width: 0;
             display: inline;
             padding: 10px;
             background: #DDBEBE;
+            height: 100%;
         }
 
-        div.col{
-            background: #FF0A0A
+        .col{
+            background: #FFBABA;
+            display: inline;
+            position: absolute;
+            padding: 10px;
         }
 
         div.head{
-            display: inline-block;
+            background: #FFCCCC;
+            display: block;
             margin: 0 auto;
         }
 
@@ -85,25 +91,26 @@
     function showBoxes() {
         $(".adder").css("visibility", "visible");
         $("#fill_text").fadeIn().removeClass('hidden');
-        $("#s_list").fadeIn().removeClass('hidden').addClass('head');
+        $("#s_list").fadeIn().removeClass('hidden');
     }
 
     function inp() {
-        $("#s_list").append("<div class='lis, col'>" + names.value + ": <div class='hidden'>"
-        + des.value + "</div></div><br>");
+        $("#s_list").append("<div class='head'><div class='lis, col'>" + names.value + ": </div><span class='hidden'>"
+        + des.value + "</span></div><br>");
+
+        S("#s_list").find(".head").css('background', '#FFCCCC');
     }
 
     var d_width;
     $("#s_list").on('click','div',function (){
-        if ($(this).children().hasClass("hidden")) {
-            d_width = $(this).children().width() + $(this).width();
-            $(this).animate({width: d_width})
-            $(this).children().removeClass('hidden').addClass('lis')
+        if ($(this).children('span').hasClass("hidden")) {
+            d_width = $(this).children().width()*10;
+            $(this).children('span').animate({width: d_width});
+            $(this).children('span').removeClass('hidden').addClass('lis');
         }
         else {
-            d_width = $(this).width() - $(this).children().width();
-            $(this).animate({width: d_width})
-            $(this).children().removeClass('lis').addClass('hidden')
+            $(this).children('span').animate({width: 0});
+            $(this).children('span').addClass('hidden').removeClass('lis');
         }
     });
 
