@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>This is some website</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <style>
+        .hidden {
+            display: none;
+            text-align: center;
+        }
+
+        h1.welcome {
+            font-family: 'Palatino Linotype', cursive, serif;
+            font-size: 50px;
+            font-weight: 100;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .desc {
+            text-align: center;
+            background: #EEBEBE;
+        }
+
+        .adder {
+            border: 1px solid black;
+            padding: 10px;
+            visibility: hidden;
+            display: inline-block;
+        }
+
+        div.lis{
+            position: relative;
+            display: inline;
+            padding: 10px;
+            background: #DDBEBE;
+        }
+
+        div.col{
+            background: #FF0A0A
+        }
+
+        div.head{
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+    </style>
+
+</head>
+<body>
+<h1 class="hidden">WELCOME</h1>
+
+<div align="center" style="padding: 10px;">
+    <div class="adder">Add Your Saying</div>
+    <div id="fill_text" class="hidden" style="padding: 10px;">
+         <textarea class='hidden' id="names">Name</textarea><br>
+         <textarea class='hidden' id="des">Description</textarea><br>
+         <button class="hidden" onclick="inp()">OK?</button>
+    </div>
+</div>
+
+<div class="hidden" style="text-align: center" id="s_list">
+    <br>
+</div>
+
+<script>
+    var names = document.getElementById('names');
+    var des = document.getElementById('des');
+
+    $(document).ready(function() {
+        $("h1.hidden").fadeIn(5000).removeClass('hidden').addClass('welcome');
+        var timer = setTimeout(showBoxes, 3500);
+        $(document).click(function() {
+            $("h1").stop(true, true, true);
+            clearTimeout(timer);
+            showBoxes();
+        });
+        $("div.adder").click(function(){
+            $("#fill_text").children().slideDown('1000').removeClass("hidden").addClass("desc");
+        });
+    });
+
+    function showBoxes() {
+        $(".adder").css("visibility", "visible");
+        $("#fill_text").fadeIn().removeClass('hidden');
+        $("#s_list").fadeIn().removeClass('hidden').addClass('head');
+    }
+
+    function inp() {
+        $("#s_list").append("<div class='lis, col'>" + names.value + ": <div class='hidden'>"
+        + des.value + "</div></div><br>");
+    }
+
+    var d_width;
+    $("#s_list").on('click','div',function (){
+        if ($(this).children().hasClass("hidden")) {
+            d_width = $(this).children().width() + $(this).width();
+            $(this).animate({width: d_width})
+            $(this).children().removeClass('hidden').addClass('lis')
+        }
+        else {
+            d_width = $(this).width() - $(this).children().width();
+            $(this).animate({width: d_width})
+            $(this).children().removeClass('lis').addClass('hidden')
+        }
+    });
+
+</script>
+
+</body>
+
+</html>
