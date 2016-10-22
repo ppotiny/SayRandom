@@ -7,14 +7,16 @@
     <style>
         .hidden {
             display: none;
-            padding: 10px;
             overflow: hidden;
+			padding: 0px;
+			width: 0;
         }
 
         h1.welcome {
             font-family: 'Palatino Linotype', cursive, serif;
             font-size: 50px;
             font-weight: 100;
+			height: 50px;
             font-style: italic;
             text-align: center;
         }
@@ -34,22 +36,33 @@
         .lis{
             width: 0;
             display: inline;
-            padding: 10px;
             background: #DDBEBE;
-            height: 100%;
+			font-size: 15px;
+			height: 80px;
+			overflow: auto;
+			padding-top: 15px;
+			word-wrap: break-word;
         }
 
         .col{
             background: #FFBABA;
             display: inline;
             position: absolute;
-            padding: 10px;
+			width: 20%;
+			margin-left: 10px;
+			padding-top: 15px;
+			height: 80px;
+			word-wrap: break-word;
         }
 
         div.head{
-            background: #FFCCCC;
-            display: block;
+			display: inline-block;
+			text-align: center;
             margin: 0 auto;
+			height: 80px;
+			width: 100%
+			word-wrap: break-word;
+			direction: ltr;
         }
 
     </style>
@@ -58,16 +71,17 @@
 <body>
 <h1 class="hidden">WELCOME</h1>
 
-<div align="center" style="padding: 10px;">
+<div align="center">
     <div class="adder">Add Your Saying</div>
     <div id="fill_text" class="hidden" style="padding: 10px;">
-         <textarea class='hidden' id="names">Name</textarea><br>
-         <textarea class='hidden' id="des">Description</textarea><br>
+         <textarea class='hidden' maxlength= "30" id="names">Name</textarea>
+         <textarea class='hidden' maxlength= "80" id="des">Description</textarea><br>
          <button class="hidden" onclick="inp()">OK?</button>
     </div>
 </div>
 
-<div class="hidden" style="text-align: center" id="s_list">
+<div style="text-align: left; width: 50%; display: inline-block; height: 50%;
+position: fixed; padding: 10px; overflow-y:auto; direction: rtl;" id="s_list">
     <br>
 </div>
 
@@ -95,24 +109,42 @@
     }
 
     function inp() {
-        $("#s_list").append("<div class='head'><div class='lis, col'>" + names.value + ": </div><span class='hidden'>"
+        $("#s_list").append("<div class='head'><div class='lis, col'>" + names.value 
+		+ ": </div><span class='hidden'>"
         + des.value + "</span></div><br>");
-
-        S("#s_list").find(".head").css('background', '#FFCCCC');
     }
 
-    var d_width;
+    var current_el;
     $("#s_list").on('click','div',function (){
         if ($(this).children('span').hasClass("hidden")) {
-            d_width = $(this).children().width()*10;
-            $(this).children('span').animate({width: d_width});
-            $(this).children('span').removeClass('hidden').addClass('lis');
+			$(this).children('span').css('font-size', '0px');
+            $(this).children('span').animate({width: $(this).parent('div').width() * 0.7});
+			$(this).children('span').css('padding-left', '13.5px');
+			$(this).children('span').css('margin-left', '5px');
+			current_el = $(this);
+			setTimeout(function() {
+				current_el.children('span').css('font-size', '15px');
+			}, 350);
+			$(this).children('span').removeClass('hidden').addClass('lis');
+			$(this).children('span').css('margin-left', 
+			$(this).children('div').width() + 18.5);
         }
-        else {
-            $(this).children('span').animate({width: 0});
-            $(this).children('span').addClass('hidden').removeClass('lis');
+        else if ($(this).children('span').hasClass("lis")){
+            $(this).children('span').animate({width: -$(this).parent('div').width()/2});
+			current_el = $(this);
+			current_el.children('span').css('font-size', '0px');
+			setTimeout(function(){
+				current_el.children('span').css('padding-left', '0px');
+				current_el.children('span').css('margin-left', '0px');
+				current_el.children('span').addClass('hidden');
+			},210);
         }
     });
+	
+	function adjustboxes() {
+		alert($(that).children('div').text());
+	}
+
 
 </script>
 
